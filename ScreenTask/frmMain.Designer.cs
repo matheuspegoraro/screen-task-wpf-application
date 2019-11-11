@@ -101,8 +101,6 @@
             // 
             // imgPreview
             // 
-            this.imgPreview.Image = global::ScreenTask.Properties.Resources.imgPrev;
-            this.imgPreview.InitialImage = global::ScreenTask.Properties.Resources.imgPrev;
             this.imgPreview.Location = new System.Drawing.Point(398, 235);
             this.imgPreview.Name = "imgPreview";
             this.imgPreview.Size = new System.Drawing.Size(210, 140);
@@ -178,7 +176,7 @@
             this.btnStartServer.Size = new System.Drawing.Size(202, 30);
             this.btnStartServer.TabIndex = 23;
             this.btnStartServer.Tag = "start";
-            this.btnStartServer.Text = "Start Server";
+            this.btnStartServer.Text = "Inciar Servidor";
             this.btnStartServer.UseVisualStyleBackColor = false;
             this.btnStartServer.Click += new System.EventHandler(this.btnStartServer_Click);
             // 
@@ -272,7 +270,7 @@
             this.txtURL.ReadOnly = true;
             this.txtURL.Size = new System.Drawing.Size(338, 20);
             this.txtURL.TabIndex = 17;
-            this.txtURL.Text = "the URL will displayed here after starting the server...";
+            this.txtURL.Text = "A URL será mostrada após o servidor ser iniciado...";
             // 
             // label1
             // 

@@ -1,0 +1,10 @@
+.img-screen-shared {
+    width: 100%;
+}
+
+*:fullscreen
+*:-ms-fullscreen,
+*:-webkit-full-screen,
+*:-moz-full-screen {
+    overflow: auto !important;
+}

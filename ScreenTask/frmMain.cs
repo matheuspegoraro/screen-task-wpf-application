@@ -44,7 +44,6 @@ namespace ScreenTask
 
         private async void btnStartServer_Click(object sender, EventArgs e)
         {
-
             if (btnStartServer.Tag.ToString() != "start")
             {
                 btnStartServer.Tag = "start";
@@ -54,11 +53,8 @@ namespace ScreenTask
                 Log("Server Stoped.");
                 return;
             }
-
             try
             {
-
-
                 serv.IgnoreWriteExceptions = true;
                 isTakingScreenshots = true;
                 isWorking = true;
@@ -106,24 +102,23 @@ namespace ScreenTask
                 bool fileExist;
                 lock (locker)
                     fileExist = File.Exists(page);
+
                 if (!fileExist)
                 {
                     var errorPage = Encoding.UTF8.GetBytes("<h1 style=\"color:red\">Error 404 , File Not Found </h1><hr><a href=\".\\\">Back to Home</a>");
                     ctx.Response.ContentType = "text/html";
                     ctx.Response.StatusCode = 404;
+                    
                     try
                     {
                         await ctx.Response.OutputStream.WriteAsync(errorPage, 0, errorPage.Length);
                     }
                     catch (Exception ex)
-                    {
+                    { }
 
-
-                    }
                     ctx.Response.Close();
                     continue;
                 }
-
 
                 if (isPrivateTask)
                 {
@@ -148,19 +143,17 @@ namespace ScreenTask
                             ctx.Response.ContentType = "text/html";
                             ctx.Response.StatusCode = 401;
                             ctx.Response.AddHeader("WWW-Authenticate", "Basic realm=Screen Task Authentication : ");
+                            
                             try
                             {
                                 await ctx.Response.OutputStream.WriteAsync(errorPage, 0, errorPage.Length);
                             }
                             catch (Exception ex)
-                            {
+                            { }
 
-
-                            }
                             ctx.Response.Close();
                             continue;
                         }
-
                     }
                 }
 
@@ -173,33 +166,31 @@ namespace ScreenTask
                 rwl.ReleaseReaderLock();
 
                 var fileinfo = new FileInfo(page);
+                
                 if (fileinfo.Extension == ".css") // important for IE -> Content-Type must be defiend for CSS files unless will ignored !!!
                     ctx.Response.ContentType = "text/css";
                 else if (fileinfo.Extension == ".html" || fileinfo.Extension == ".htm")
                     ctx.Response.ContentType = "text/html"; // Important For Chrome Otherwise will display the HTML as plain text.
 
-
-
                 ctx.Response.StatusCode = 200;
+
                 try
                 {
                     await ctx.Response.OutputStream.WriteAsync(filedata, 0, filedata.Length);
                 }
                 catch (Exception ex)
                 {
-
                     /*
                         Do Nothing !!! this is the Only Effective Solution for this Exception : 
                         the specified network name is no longer available
                         
                      */
-
                 }
 
                 ctx.Response.Close();
             }
-
         }
+
         private async Task CaptureScreenEvery(int msec)
         {
             while (isWorking)
@@ -210,8 +201,6 @@ namespace ScreenTask
                     msec = (int)numShotEvery.Value;
                     await Task.Delay(msec);
                 }
-
-
             }
         }
         private void TakeScreenshot(bool captureMouse)
@@ -222,12 +211,14 @@ namespace ScreenTask
                 rwl.AcquireWriterLock(Timeout.Infinite);
                 bmp.Save(Application.StartupPath + "/WebServer" + "/ScreenTask.jpg", ImageFormat.Jpeg);
                 rwl.ReleaseWriterLock();
+                
                 if (isPreview)
                 {
                     img = new MemoryStream();
                     bmp.Save(img, ImageFormat.Jpeg);
                     imgPreview.Image = new Bitmap(img);
                 }
+                
                 return;
             } else
             {
@@ -235,12 +226,14 @@ namespace ScreenTask
                 rwl.AcquireWriterLock(Timeout.Infinite);
                 bmp.Save(Application.StartupPath + "/WebServer" + "/ScreenTask.jpg", ImageFormat.Jpeg);
                 rwl.ReleaseWriterLock();
+                
                 if (isPreview)
                 {
                     img = new MemoryStream();
                     bmp.Save(img, ImageFormat.Jpeg);
                     imgPreview.Image = new Bitmap(img);
                 }
+
                 return;
             }
         }
@@ -262,6 +255,7 @@ namespace ScreenTask
         private List<Tuple<string, string>> GetAllIPv4Addresses()
         {
             List<Tuple<string, string>> ipList = new List<Tuple<string, string>>();
+            
             foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
             {
 
@@ -273,13 +267,13 @@ namespace ScreenTask
                     }
                 }
             }
+
             return ipList;
         }
         private Task AddFirewallRule(int port)
         {
             return Task.Run(() =>
             {
-
                 string cmd = RunCMD("netsh advfirewall firewall show rule \"Screen Task\"");
                 if (cmd.StartsWith("\r\nNo rules match the specified criteria."))
                 {
@@ -299,8 +293,8 @@ namespace ScreenTask
                     }
                 }
             });
-
         }
+
         private string RunCMD(string cmd)
         {
             Process proc = new Process();
@@ -317,10 +311,10 @@ namespace ScreenTask
             proc.Close();
             return res;
         }
+
         private void Log(string text)
         {
             txtLog.Text += DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + " : " + text + "\r\n";
-
         }
 
         private void btnStopServer_Click(object sender, EventArgs e)
@@ -386,6 +380,7 @@ namespace ScreenTask
             {
                 comboIPs.Items.Add(ip.Item2 + " - " + ip.Item1);
             }
+
             comboIPs.SelectedIndex = comboIPs.Items.Count - 1;
 
             int i = 0;
@@ -394,6 +389,7 @@ namespace ScreenTask
                 comboMonitors.Items.Add("[" + i + "] " + screen.DeviceName.Replace('\\', ' ').Replace('.', ' ') + " Primário: " + (screen.Primary ? "Sim" : "Não"));
                 i++;
             }
+
             comboMonitors.SelectedIndex = 0;
             comboMonitors.Enabled = true;
         }
@@ -421,23 +417,5 @@ namespace ScreenTask
                 isTakingScreenshots = false;
             }
         }
-
-        private void lblWebsite_Click(object sender, EventArgs e)
-        {
-            Process.Start("http://eslamx.com");
-        }
-
-        private void lblMe_Click(object sender, EventArgs e)
-        {
-            Process.Start("http://facebook.com/EslaMx7");
-            Process.Start("http://twitter.com/EslaMx7");
-        }
-
-        private void lblGithub_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://github.com/EslaMx7/ScreenTask");
-        }
-
-
     }
 }

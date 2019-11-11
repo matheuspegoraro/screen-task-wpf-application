@@ -92,10 +92,19 @@
   <ItemGroup>
     <Content Include="imgPrev.png" />
     <Content Include="screenicon.ico" />
-    <Content Include="ScreenTaskBackground.png" />
-    <Content Include="ScreenTaskMain.png" />
-    <Content Include="ScreenTaskWebUI.png" />
-    <Content Include="WebServer\bootstrap.min.css">
+    <Content Include="WebServer\Res\Js\screen-task.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebServer\Res\Js\jquery-3.2.1.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebServer\Res\Js\bootstrap.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebServer\Res\Css\main.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebServer\Res\Css\bootstrap.min.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="WebServer\index.html">
